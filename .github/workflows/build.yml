@@ -1,0 +1,26 @@
+name: Build project
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: ⚡ Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'liberica'
+          java-version-file: .tool-versions
+          cache: 'gradle'
+
+      - name: 🧪 Check with Gradle
+        run: ./gradlew check --info --no-daemon --no-watch-fs

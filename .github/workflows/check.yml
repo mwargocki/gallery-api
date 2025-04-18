@@ -1,0 +1,30 @@
+name: Check project
+
+on:
+  pull_request:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ⚡ Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'liberica'
+          java-version-file: .tool-versions
+          cache: 'gradle'
+
+      - name: 🧪 Check with Gradle
+        run: ./gradlew check --info --no-daemon --no-watch-fs
