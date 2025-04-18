@@ -2,7 +2,7 @@
 The following was discovered as part of building this project:
 
 * The JVM level was changed from '24' to '21' as the Kotlin version does not support Java 24 yet.
-* The original package name 'com.warus.gallery-api' is invalid and this project uses 'com.warus.gallery_api' instead.
+* The original package name 'com.warus.gallery-api' is invalid and this project uses 'com.warus.gallery' instead.
 
 # Getting Started
 
