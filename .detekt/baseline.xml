@@ -2,8 +2,18 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>FunctionOnlyReturningConstant:HelloController.kt$HelloController$@GetMapping("/hello") fun hello(): String</ID>
+    <ID>LongParameterList:PhotoController.kt$PhotoController$( @RequestParam(required = false) color: String?, @RequestParam(required = false) type: String?, @RequestParam(required = false) material: String?, @RequestParam(required = false) minHeight: Int?, @RequestParam(required = false) maxHeight: Int?, @RequestParam(defaultValue = "0") page: Int, @RequestParam(defaultValue = "20") size: Int )</ID>
+    <ID>LongParameterList:PhotoService.kt$PhotoService$( color: String?, type: String?, material: String?, minHeight: Int?, maxHeight: Int?, page: Int, size: Int )</ID>
+    <ID>MagicNumber:JwtAuthenticationFilter.kt$JwtAuthenticationFilter$7</ID>
+    <ID>NewLineAtEndOfFile:JwtAuthenticationFilter.kt$com.warus.gallery.api.filter.JwtAuthenticationFilter.kt</ID>
+    <ID>NewLineAtEndOfFile:PhotoSpecs.kt$com.warus.gallery.api.service.PhotoSpecs.kt</ID>
     <ID>SpreadOperator:Application.kt$(*args)</ID>
+    <ID>SwallowedException:AuthController.kt$AuthController$ex: AuthenticationException</ID>
+    <ID>SwallowedException:JwtUtils.kt$JwtUtils$ex: JwtException</ID>
+    <ID>TooGenericExceptionThrown:AuthController.kt$AuthController$throw RuntimeException("Invalid credentials")</ID>
     <ID>UtilityClassWithPublicConstructor:IntegrationTest.kt$IntegrationTest</ID>
+    <ID>WildcardImport:Photo.kt$import jakarta.persistence.*</ID>
+    <ID>WildcardImport:PhotoController.kt$import org.springframework.web.bind.annotation.*</ID>
+    <ID>WildcardImport:User.kt$import jakarta.persistence.*</ID>
   </CurrentIssues>
 </SmellBaseline>
