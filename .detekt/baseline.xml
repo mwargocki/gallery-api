@@ -4,5 +4,6 @@
   <CurrentIssues>
     <ID>FunctionOnlyReturningConstant:HelloController.kt$HelloController$@GetMapping("/hello") fun hello(): String</ID>
     <ID>SpreadOperator:Application.kt$(*args)</ID>
+    <ID>UtilityClassWithPublicConstructor:IntegrationTest.kt$IntegrationTest</ID>
   </CurrentIssues>
 </SmellBaseline>
