@@ -2,6 +2,7 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
+    <ID>FunctionOnlyReturningConstant:HelloController.kt$HelloController$@GetMapping("/hello") fun hello(): String</ID>
     <ID>SpreadOperator:Application.kt$(*args)</ID>
   </CurrentIssues>
 </SmellBaseline>

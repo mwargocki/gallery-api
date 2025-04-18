@@ -1,3 +1,9 @@
 spring:
   application:
     name: gallery-api
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
