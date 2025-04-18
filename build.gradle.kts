@@ -1,9 +1,13 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+
 plugins {
-	kotlin("jvm") version "2.1.20"
-	kotlin("plugin.spring") version "2.1.20"
+	kotlin("jvm") version "2.0.21"
+	kotlin("plugin.spring") version "2.0.21"
 	id("org.springframework.boot") version "3.4.4"
 	id("io.spring.dependency-management") version "1.1.7"
-//	kotlin("plugin.jpa") version "2.1.20"
+	id("io.gitlab.arturbosch.detekt") version "1.23.8"
+//	kotlin("plugin.jpa") version "2.0.21"
 }
 
 group = "com.warus"
@@ -18,6 +22,14 @@ java {
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
+	}
+
+	configure<DetektExtension> {
+		parallel = true
+		buildUponDefaultConfig = true
+		allRules = false
+		config.setFrom("$projectDir/.detekt/detekt.yml")
+		baseline = file("$projectDir/.detekt/baseline.xml")
 	}
 }
 
@@ -54,6 +66,19 @@ allOpen {
 	annotation("jakarta.persistence.Embeddable")
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+tasks {
+	withType<Test> {
+		useJUnitPlatform()
+	}
+
+	withType<Detekt> {
+		jvmTarget = "21"
+		reports {
+			html.required.set(false)
+			xml.required.set(true)
+			txt.required.set(false)
+			sarif.required.set(false)
+		}
+	}
+
 }

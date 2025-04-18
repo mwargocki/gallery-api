@@ -10,3 +10,5 @@
 /build/
 # Gradle directory
 /.gradle/
+# Idea directory
+/.idea/
