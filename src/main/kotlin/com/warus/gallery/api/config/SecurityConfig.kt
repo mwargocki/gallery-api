@@ -29,7 +29,7 @@ class SecurityConfig(
                .requestMatchers("/auth/**").permitAll()
                .requestMatchers("/actuator/**").permitAll() //http://localhost:8080/actuator
                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() //http://localhost:8080/swagger-ui/index.html#
-               .requestMatchers(HttpMethod.GET, "/api/photos/**", "/api/filters/**").permitAll()
+               .requestMatchers(HttpMethod.GET, "/api/photos/**", "/api/filters/**", "/images/**").permitAll()
                .anyRequest().authenticated()
          }
          .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
