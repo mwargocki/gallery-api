@@ -28,6 +28,32 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.hibernate.SQL: DEBUG
+    com.example.gallery: DEBUG
+#  file:
+#    name: logs/gallery.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
 upload:
   path: /Users/marek.wargocki@schibsted.com/Downloads/uploaded
 
