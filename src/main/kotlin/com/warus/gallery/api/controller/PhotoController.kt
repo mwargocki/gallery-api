@@ -1,6 +1,7 @@
 package com.warus.gallery.api.controller
 
 import com.warus.gallery.api.db.model.Photo
+import com.warus.gallery.api.model.PhotoUpdateRequest
 import com.warus.gallery.api.model.PhotoUploadRequest
 import com.warus.gallery.api.service.PhotoService
 import org.springframework.data.domain.Page
@@ -28,14 +29,30 @@ class PhotoController(
 
    @GetMapping
    fun getPhotos(
-      @RequestParam(required = false) color: String?,
-      @RequestParam(required = false) type: String?,
-      @RequestParam(required = false) material: String?,
+      @RequestParam(required = false) color: List<String>?,
+      @RequestParam(required = false) type: List<String>?,
+      @RequestParam(required = false) material: List<String>?,
       @RequestParam(required = false) minHeight: Int?,
       @RequestParam(required = false) maxHeight: Int?,
       @RequestParam(defaultValue = "0") page: Int,
       @RequestParam(defaultValue = "20") size: Int
    ): Page<Photo> {
       return photoService.getPhotosWithFilters(color, type, material, minHeight, maxHeight, page, size)
+   }
+
+   @GetMapping("/{id}")
+   fun getPhoto(@PathVariable id: Long): Photo {
+      return photoService.getPhotoById(id)
+   }
+
+   @PutMapping("/{id}")
+   fun updatePhoto(@PathVariable id: Long, @RequestBody request: PhotoUpdateRequest): Photo {
+      return photoService.updatePhoto(id, request)
+   }
+
+   @DeleteMapping("/{id}")
+   fun deletePhoto(@PathVariable id: Long): ResponseEntity<Void> {
+      photoService.deletePhoto(id)
+      return ResponseEntity.noContent().build()
    }
 }
