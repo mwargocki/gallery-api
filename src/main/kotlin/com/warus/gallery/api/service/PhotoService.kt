@@ -67,7 +67,7 @@ class PhotoService(
          .and(minHeight?.let { PhotoSpecs.hasMinHeight(it) })
          .and(maxHeight?.let { PhotoSpecs.hasMaxHeight(it) })
 
-      return photoRepository.findAll(spec, PageRequest.of(page, size, Sort.by("createdAt").descending()))
+      return photoRepository.findAll(spec, PageRequest.of(page, size, Sort.by("id").descending()))
    }
 
    fun getPhotoById(id: Long): Photo =
