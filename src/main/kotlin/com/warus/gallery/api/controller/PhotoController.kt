@@ -23,7 +23,11 @@ class PhotoController(
       @RequestPart file: MultipartFile,
       @RequestPart photo: PhotoUploadRequest
    ): ResponseEntity<Photo> {
-      val saved = photoService.save(file, photo)
+      val saved = photoService.save(file, photo.copy(
+         material = photo.material.lowercase(),
+         color = photo.color.lowercase(),
+         type = photo.type.lowercase()
+      ))
       return ResponseEntity.status(HttpStatus.CREATED).body(saved)
    }
 
@@ -47,7 +51,11 @@ class PhotoController(
 
    @PutMapping("/{id}")
    fun updatePhoto(@PathVariable id: Long, @RequestBody request: PhotoUpdateRequest): Photo {
-      return photoService.updatePhoto(id, request)
+      return photoService.updatePhoto(id, request.copy(
+         material = request.material.lowercase(),
+         color = request.color.lowercase(),
+         type = request.type.lowercase()
+      ))
    }
 
    @DeleteMapping("/{id}")

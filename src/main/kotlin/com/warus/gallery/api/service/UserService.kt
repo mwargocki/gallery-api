@@ -22,7 +22,7 @@ class UserService(
       val user = User(
          username = request.username,
          password = encodedPassword,
-         roles = request.roles.uppercase() // np. "ADMIN" lub "USER"
+         roles = "ADMIN"
       )
 
       return userRepository.save(user)
