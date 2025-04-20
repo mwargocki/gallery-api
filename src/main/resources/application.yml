@@ -5,11 +5,8 @@ spring:
   application:
     name: gallery-api
 
-  datasource:
-    url: jdbc:postgresql://localhost:6666/gallery_db
-    username: warus
-    password: pass
-    driver-class-name: org.postgresql.Driver
+  profiles:
+    active: ${GALLERY_ENVIRONMENT:local}
 
   jpa:
     hibernate:
@@ -28,20 +25,32 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health, info, metrics, prometheus
+    endpoint:
+      health:
+        show-details: always
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info, metrics, prometheus
-  endpoint:
-    health:
-      show-details: always
+  springdoc:
+    api-docs:
+      path: /v3/api-docs
+    swagger-ui:
+      path: /swagger-ui.html
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:postgresql://localhost:6666/gallery_db
+    username: warus
+    password: pass
+    driver-class-name: org.postgresql.Driver
 
 logging:
   level:
@@ -49,13 +58,43 @@ logging:
     org.springframework: WARN
     org.hibernate.SQL: DEBUG
     com.example.gallery: DEBUG
-#  file:
-#    name: logs/gallery.log
+  #  file:
+  #    name: logs/gallery.log
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 upload:
   path: /Users/marek.wargocki@schibsted.com/Downloads/uploaded
+
+jwt:
+  secret: supersecretkey12345678901234567890123456789012
+  expiration: 86400000 # 1 miliseconds (1000 * 60 * 60 * 24)
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: jdbc:postgresql://db.gdvaprapwqoglamwabdg.supabase.co:5432/postgres
+    username: postgres
+    password: aaaL3V5YlFmSd2vu
+    driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.hibernate.SQL: DEBUG
+    com.example.gallery: DEBUG
+  #  file:
+  #    name: logs/gallery.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+upload:
+  path: ./
 
 jwt:
   secret: supersecretkey12345678901234567890123456789012
