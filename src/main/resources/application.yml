@@ -76,6 +76,9 @@ spring:
     activate:
       on-profile: dev
 
+server:
+  port: ${SPRING_SERVER_PORT}
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
