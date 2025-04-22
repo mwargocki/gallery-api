@@ -5,6 +5,7 @@ import com.warus.gallery.api.db.model.Photo
 import com.warus.gallery.api.db.repository.PhotoRepository
 import com.warus.gallery.api.model.PhotoUpdateRequest
 import com.warus.gallery.api.model.PhotoUploadRequest
+import net.coobird.thumbnailator.Thumbnails
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -25,23 +26,37 @@ class PhotoService(
 
    fun save(file: MultipartFile, metadata: PhotoUploadRequest): Photo {
       val extension = file.originalFilename?.substringAfterLast('.', "")!!
-      val fileName = UUID.randomUUID().toString() + "." + extension
+      val uuid = UUID.randomUUID().toString()
+
+      val fileName = "$uuid.$extension"
+      val thumbnailName = "${uuid}_thumb.$extension"
+
       val uploadDir = Paths.get(uploadProperties.path)
+      val fullPath = uploadDir.resolve(fileName)
+      val thumbPath = uploadDir.resolve(thumbnailName)
 
       if (!Files.exists(uploadDir)) {
          Files.createDirectories(uploadDir)
       }
 
-      val filePath = uploadDir.resolve(fileName)
+      // Zapis oryginału
       file.inputStream.use { input ->
-         Files.copy(input, filePath, StandardCopyOption.REPLACE_EXISTING)
+         Files.copy(input, fullPath, StandardCopyOption.REPLACE_EXISTING)
       }
 
+      // Tworzenie miniatury (max 1920x1080)
+      Thumbnails.of(fullPath.toFile())
+         .size(1000, 1000)
+         .keepAspectRatio(true)
+         .toFile(thumbPath.toFile())
+
       val imageUrl = "/images/$fileName"
+      val thumbnailUrl = "/images/$thumbnailName"
 
       val photo = Photo(
          fileName = fileName,
          imageUrl = imageUrl,
+         thumbnailUrl = thumbnailUrl,
          height = metadata.height,
          material = metadata.material,
          color = metadata.color,
@@ -92,8 +107,16 @@ class PhotoService(
       val photo = photoRepository.findById(id)
          .orElseThrow { NoSuchElementException("Photo not found with id $id") }
 
-      val path: Path = Paths.get(uploadProperties.path).resolve(photo.fileName)
-      Files.deleteIfExists(path)
+      val uploadPath = Paths.get(uploadProperties.path)
+
+      val originalPath: Path = uploadPath.resolve(photo.fileName)
+      Files.deleteIfExists(originalPath)
+
+      val thumbName = photo.thumbnailUrl?.substringAfterLast("/")
+      if (!thumbName.isNullOrBlank()) {
+         val thumbPath = uploadPath.resolve(thumbName)
+         Files.deleteIfExists(thumbPath)
+      }
 
       photoRepository.delete(photo)
    }

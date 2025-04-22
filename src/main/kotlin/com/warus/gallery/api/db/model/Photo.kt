@@ -27,6 +27,9 @@ data class Photo(
    @Column(nullable = false)
    val type: String,
 
+   @Column(name = "thumbnail_url")
+   val thumbnailUrl: String? = null,
+
    @Column(name = "created_at")
    val createdAt: LocalDateTime = LocalDateTime.now()
 )
