@@ -15,8 +15,7 @@ class CorsConfig {
             registry.addMapping("/**")
                .allowedOrigins(
                   "http://localhost:3000",
-                  "http://192.168.1.20:80",
-                  "http://192.168.1.20")
+                  "https://gallery.warus.usermd.net")
                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                .allowedHeaders("*")
                .allowCredentials(true)

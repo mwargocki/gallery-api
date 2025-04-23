@@ -97,7 +97,7 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 upload:
-  path: ./
+  path: ${FILE_STORAGE_PATH}
 
 jwt:
   secret: supersecretkey12345678901234567890123456789012
