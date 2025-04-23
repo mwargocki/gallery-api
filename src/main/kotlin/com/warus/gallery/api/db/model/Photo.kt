@@ -10,10 +10,10 @@ data class Photo(
    val id: Long = 0,
 
    @Column(name = "file_name", nullable = false)
-   val fileName: String,
+   val filename: String,
 
-   @Column(name = "image_url", nullable = false)
-   val imageUrl: String,
+   @Column(name = "thumbnail")
+   val thumbnail: String? = null,
 
    @Column(nullable = false)
    val height: Int,
@@ -26,9 +26,6 @@ data class Photo(
 
    @Column(nullable = false)
    val type: String,
-
-   @Column(name = "thumbnail_url")
-   val thumbnailUrl: String? = null,
 
    @Column(name = "created_at")
    val createdAt: LocalDateTime = LocalDateTime.now()

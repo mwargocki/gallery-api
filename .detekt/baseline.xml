@@ -7,12 +7,14 @@
     <ID>MagicNumber:JwtAuthenticationFilter.kt$JwtAuthenticationFilter$7</ID>
     <ID>MagicNumber:PhotoService.kt$PhotoService$1000</ID>
     <ID>MatchingDeclarationName:OpenApiConfig.kt$OpenApiSecurityConfig</ID>
+    <ID>NewLineAtEndOfFile:ImageController.kt$com.warus.gallery.api.controller.ImageController.kt</ID>
     <ID>NewLineAtEndOfFile:JwtAuthenticationFilter.kt$com.warus.gallery.api.filter.JwtAuthenticationFilter.kt</ID>
     <ID>NewLineAtEndOfFile:OpenApiConfig.kt$com.warus.gallery.api.config.OpenApiConfig.kt</ID>
     <ID>NewLineAtEndOfFile:PhotoSpecs.kt$com.warus.gallery.api.service.PhotoSpecs.kt</ID>
     <ID>SpreadOperator:Application.kt$(*args)</ID>
     <ID>SpreadOperator:PhotoSpecs.kt$PhotoSpecs$(*predicates.toTypedArray())</ID>
     <ID>SwallowedException:AuthController.kt$AuthController$ex: AuthenticationException</ID>
+    <ID>SwallowedException:ImageController.kt$ImageController$e: IOException</ID>
     <ID>SwallowedException:JwtUtils.kt$JwtUtils$ex: JwtException</ID>
     <ID>TooGenericExceptionThrown:AuthController.kt$AuthController$throw RuntimeException("Invalid credentials")</ID>
     <ID>UnusedPrivateClass:UserController.kt$UserController</ID>

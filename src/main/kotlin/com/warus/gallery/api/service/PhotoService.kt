@@ -50,13 +50,9 @@ class PhotoService(
          .keepAspectRatio(true)
          .toFile(thumbPath.toFile())
 
-      val imageUrl = "/images/$fileName"
-      val thumbnailUrl = "/images/$thumbnailName"
-
       val photo = Photo(
-         fileName = fileName,
-         imageUrl = imageUrl,
-         thumbnailUrl = thumbnailUrl,
+         filename = fileName,
+         thumbnail = thumbnailName,
          height = metadata.height,
          material = metadata.material,
          color = metadata.color,
@@ -109,10 +105,10 @@ class PhotoService(
 
       val uploadPath = Paths.get(uploadProperties.path)
 
-      val originalPath: Path = uploadPath.resolve(photo.fileName)
+      val originalPath: Path = uploadPath.resolve(photo.filename)
       Files.deleteIfExists(originalPath)
 
-      val thumbName = photo.thumbnailUrl?.substringAfterLast("/")
+      val thumbName = photo.thumbnail
       if (!thumbName.isNullOrBlank()) {
          val thumbPath = uploadPath.resolve(thumbName)
          Files.deleteIfExists(thumbPath)

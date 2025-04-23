@@ -1,12 +1,12 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: gallery-api
 
   profiles:
-    active: ${GALLERY_ENVIRONMENT:local}
+    active: ${SPRING_PROFILES_ACTIVE:local}
 
   jpa:
     hibernate:
@@ -76,13 +76,10 @@ spring:
     activate:
       on-profile: dev
 
-server:
-  port: ${SPRING_SERVER_PORT}
-
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
 logging:
