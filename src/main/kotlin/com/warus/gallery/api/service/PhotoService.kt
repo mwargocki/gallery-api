@@ -46,7 +46,7 @@ class PhotoService(
 
       // Tworzenie miniatury (max 1920x1080)
       Thumbnails.of(fullPath.toFile())
-         .size(1000, 1000)
+         .size(500, 500)
          .keepAspectRatio(true)
          .toFile(thumbPath.toFile())
 
