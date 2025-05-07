@@ -6,9 +6,6 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "photos")
 data class Photo(
-   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-   val id: Long = 0,
-
    @Column(name = "file_name", nullable = false)
    val filename: String,
 
@@ -28,5 +25,9 @@ data class Photo(
    val type: String,
 
    @Column(name = "created_at")
-   val createdAt: LocalDateTime = LocalDateTime.now()
+   val createdAt: LocalDateTime = LocalDateTime.now(),
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   var id: Long? = null
 )
