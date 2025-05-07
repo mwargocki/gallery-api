@@ -27,7 +27,7 @@ class SecurityConfig(
          .cors { }
          .authorizeHttpRequests {
             it
-               .requestMatchers("/auth/**").permitAll()
+               .requestMatchers("/api/auth/**").permitAll()
                .requestMatchers("/actuator/**").permitAll() //http://localhost:8080/actuator
                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() //http://localhost:8080/swagger-ui/index.html#
                .requestMatchers(HttpMethod.GET, "/api/photos/**", "/api/filters/**", "/api/images/**").permitAll()
