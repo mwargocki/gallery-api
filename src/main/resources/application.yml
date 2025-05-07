@@ -96,6 +96,12 @@ logging:
 upload:
   path: ${FILE_STORAGE_PATH}
 
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
 jwt:
   secret: supersecretkey12345678901234567890123456789012
   expiration: 86400000 # 1 miliseconds (1000 * 60 * 60 * 24)
