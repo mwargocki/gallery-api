@@ -5,7 +5,7 @@
     <ID>LongParameterList:PhotoController.kt$PhotoController$( @RequestParam(required = false) color: List&lt;String&gt;?, @RequestParam(required = false) type: List&lt;String&gt;?, @RequestParam(required = false) material: List&lt;String&gt;?, @RequestParam(required = false) minHeight: Int?, @RequestParam(required = false) maxHeight: Int?, @RequestParam(defaultValue = "0") page: Int, @RequestParam(defaultValue = "20") size: Int )</ID>
     <ID>LongParameterList:PhotoService.kt$PhotoService$( colors: List&lt;String&gt;?, types: List&lt;String&gt;?, materials: List&lt;String&gt;?, minHeight: Int?, maxHeight: Int?, page: Int, size: Int )</ID>
     <ID>MagicNumber:JwtAuthenticationFilter.kt$JwtAuthenticationFilter$7</ID>
-    <ID>MagicNumber:PhotoService.kt$PhotoService$1000</ID>
+    <ID>MagicNumber:PhotoService.kt$PhotoService$500</ID>
     <ID>MatchingDeclarationName:OpenApiConfig.kt$OpenApiSecurityConfig</ID>
     <ID>NewLineAtEndOfFile:ImageController.kt$com.warus.gallery.api.controller.ImageController.kt</ID>
     <ID>NewLineAtEndOfFile:JwtAuthenticationFilter.kt$com.warus.gallery.api.filter.JwtAuthenticationFilter.kt</ID>
