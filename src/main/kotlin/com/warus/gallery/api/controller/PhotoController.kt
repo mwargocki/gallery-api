@@ -23,6 +23,10 @@ class PhotoController(
       @RequestPart file: MultipartFile,
       @RequestPart photo: PhotoUploadRequest
    ): ResponseEntity<Photo> {
+      if (photo.height <= 0) {
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+      }
+
       val saved = photoService.save(file, photo.copy(
          material = photo.material.lowercase(),
          color = photo.color.lowercase(),
@@ -63,4 +67,5 @@ class PhotoController(
       photoService.deletePhoto(id)
       return ResponseEntity.noContent().build()
    }
+
 }
