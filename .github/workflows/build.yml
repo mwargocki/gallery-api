@@ -78,9 +78,9 @@ jobs:
 #          dist/gallery-api-${{ github.sha }}.jar \
 #          ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIR }}/gallery-api.jar
 
-#      - name: 🚀 Run post-deploy script
-#        run: |
-#          sshpass -p "${{ secrets.MYDEVIL_PASSWORD }}" \
-#          ssh -o StrictHostKeyChecking=no \
-#          ${{ secrets.MYDEVIL_USER }}@${{ secrets.MYDEVIL_HOST }} \
-#          'bash ~/scripts/post-deploy.sh'
+      - name: 🚀 Run post-deploy script
+        run: |
+          sshpass -p "${{ secrets.MYDEVIL_PASSWORD }}" \
+          ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.MYDEVIL_USER }}@${{ secrets.MYDEVIL_HOST }} \
+          'bash ~/scripts/post-deploy.sh'
