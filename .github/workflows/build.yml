@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  TARGET_DIR: projects/gha-test
+  TARGET_DIR: "projects/gha-test"
 
 jobs:
   build:
@@ -72,7 +72,7 @@ jobs:
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          'bash ~/$TARGET_DIR/start.sh'
+          "bash ~/${TARGET_DIR}/start.sh"
 
       - name: 📤 Upload as gallery-api.jar
         run: |
