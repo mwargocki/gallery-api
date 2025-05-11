@@ -83,4 +83,4 @@ jobs:
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          'bash ~/${{ secrets.TARGET_DIR }}/start.sh'
+          'bash ~/${{ secrets.TARGET_DIR }}/stop.sh'
