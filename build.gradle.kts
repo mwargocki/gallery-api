@@ -91,4 +91,13 @@ tasks {
 		}
 	}
 
+	named<Jar>("jar") {
+		enabled = false
+	}
+
+	named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+		archiveBaseName.set("gallery-api")
+		archiveVersion.set("")
+		archiveClassifier.set("")
+	}
 }
