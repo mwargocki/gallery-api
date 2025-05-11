@@ -47,31 +47,37 @@ jobs:
           path: build/libs/gallery-api-${{ github.sha }}.jar
           retention-days: 90
 
-#  deploy:
-#    name: 🚀 Deploy to mydevil.net
-#    runs-on: ubuntu-latest
-#    needs: build
-#    environment:
-#      name: production
-#      url: https://twoja-strona.pl
-#
-#    steps:
-#      - name: ⬇️ Download artifact
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: gallery-api-${{ github.sha }}
-#          path: dist
-#
-#      - name: 🧰 Install sshpass
-#        run: sudo apt-get update && sudo apt-get install -y sshpass
-#
+  deploy:
+    name: 🚀 Deploy to mydevil.net
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: production
+
+    steps:
+      - name: ⬇️ Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: gallery-api-${{ github.sha }}
+          path: dist
+
+      - name: 🧰 Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: 🚀 Run pre-deploy script
+        run: |
+          sshpass -p "${{ secrets.PASSWORD }}" \
+          ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.USER }}@${{ secrets.HOST }} \
+          'bash ~/${{ secrets.TARGET_DIR }}/post-deploy.sh'
+
 #      - name: 📤 Upload as gallery-api.jar
 #        run: |
-#          sshpass -p "${{ secrets.MYDEVIL_PASSWORD }}" \
+#          sshpass -p "${{ secrets.PASSWORD }}" \
 #          scp -o StrictHostKeyChecking=no \
 #          dist/gallery-api-${{ github.sha }}.jar \
-#          ${{ secrets.MYDEVIL_USER }}@${{ secrets.MYDEVIL_HOST }}:${{ secrets.MYDEVIL_TARGET_DIR }}/gallery-api.jar
-#
+#          ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIR }}/gallery-api.jar
+
 #      - name: 🚀 Run post-deploy script
 #        run: |
 #          sshpass -p "${{ secrets.MYDEVIL_PASSWORD }}" \
