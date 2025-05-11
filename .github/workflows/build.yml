@@ -71,12 +71,12 @@ jobs:
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
           'bash ~/${{ secrets.TARGET_DIR }}/start.sh'
 
-#      - name: 📤 Upload as gallery-api.jar
-#        run: |
-#          sshpass -p "${{ secrets.PASSWORD }}" \
-#          scp -o StrictHostKeyChecking=no \
-#          dist/gallery-api-${{ github.sha }}.jar \
-#          ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIR }}/gallery-api.jar
+      - name: 📤 Upload as gallery-api.jar
+        run: |
+          sshpass -p "${{ secrets.PASSWORD }}" \
+          scp -o StrictHostKeyChecking=no \
+          dist/gallery-api-${{ github.sha }}.jar \
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIR }}/api/gallery-api.jar
 
       - name: 🚀 Run post-deploy script
         run: |
