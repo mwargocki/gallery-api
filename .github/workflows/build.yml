@@ -80,7 +80,7 @@ jobs:
 
       - name: 🚀 Run post-deploy script
         run: |
-          sshpass -p "${{ secrets.MYDEVIL_PASSWORD }}" \
+          sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
-          ${{ secrets.MYDEVIL_USER }}@${{ secrets.MYDEVIL_HOST }} \
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
           'bash ~/scripts/post-deploy.sh'
