@@ -69,7 +69,7 @@ jobs:
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USER }}@${{ secrets.HOST }} \
-          'bash ~/${{ secrets.TARGET_DIR }}/post-deploy.sh'
+          'bash ~/${{ secrets.TARGET_DIR }}/start.sh'
 
 #      - name: 📤 Upload as gallery-api.jar
 #        run: |
