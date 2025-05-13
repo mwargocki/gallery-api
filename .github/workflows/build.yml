@@ -69,18 +69,18 @@ jobs:
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          "bash ~/${{ env.TARGET_DIR }}/api-stop.sh"
+          "bash ~/${{ vars.TARGET_DIR }}/api-stop.sh"
 
       - name: 📤 Upload as gallery-api.jar
         run: |
           sshpass -p "${{ secrets.PASSWORD }}" \
           scp -o StrictHostKeyChecking=no \
           dist/${{ needs.build.outputs.artifact-name }}.jar \
-          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ env.TARGET_DIR }}/backend/gallery-api.jar
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ vars.TARGET_DIR }}/backend/gallery-api.jar
 
       - name: 🚀 Run post-deploy script
         run: |
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          "bash ~/${{ env.TARGET_DIR }}/api-start.sh"
+          "bash ~/${{ vars.TARGET_DIR }}/api-start.sh"
