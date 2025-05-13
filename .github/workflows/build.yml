@@ -45,10 +45,10 @@ jobs:
         with:
           name: ${{ steps.set-artifact-name.outputs.name }}
           path: build/libs/${{ steps.set-artifact-name.outputs.name }}.jar
-          retention-days: 90
+          retention-days: 30
 
   deploy:
-    name: 🚀 Deploy to mydevil.net
+    name: 🚀 Deploy
     runs-on: ubuntu-latest
     needs: build
     environment:
