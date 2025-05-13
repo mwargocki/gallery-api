@@ -40,14 +40,14 @@ jobs:
         id: set-artifact-name
         run: echo "name=gallery-api-${GITHUB_SHA}" >> $GITHUB_OUTPUT
 
-      - name: 📁 Rename .jar with SHA
-        run: cp build/libs/gallery-api.jar build/libs/gallery-api-${GITHUB_SHA}.jar
+      - name: 📁 Rename .jar
+        run: cp build/libs/gallery-api.jar build/libs/${{ steps.set-artifact-name.outputs.name }}.jar
 
       - name: 📦 Upload versioned .jar
         uses: actions/upload-artifact@v4
         with:
-          name: gallery-api-${{ github.sha }}
-          path: build/libs/gallery-api-${{ github.sha }}.jar
+          name: ${{ steps.set-artifact-name.outputs.name }}
+          path: build/libs/${{ steps.set-artifact-name.outputs.name }}.jar
           retention-days: 90
 
   deploy:
@@ -61,7 +61,7 @@ jobs:
       - name: ⬇️ Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: gallery-api-${{ github.sha }}
+          name: ${{ needs.build.outputs.artifact-name }}
           path: dist
 
       - name: 🧰 Install sshpass
@@ -72,18 +72,18 @@ jobs:
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          "bash ~/${TARGET_DIR}/api-stop.sh"
+          "bash ~/${{ env.TARGET_DIR }}/api-stop.sh"
 
       - name: 📤 Upload as gallery-api.jar
         run: |
           sshpass -p "${{ secrets.PASSWORD }}" \
           scp -o StrictHostKeyChecking=no \
-          dist/gallery-api-${{ github.sha }}.jar \
-          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${TARGET_DIR}/backend/gallery-api.jar
+          dist/${{ needs.build.outputs.artifact-name }}.jar \
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ env.TARGET_DIR }}/backend/gallery-api.jar
 
       - name: 🚀 Run post-deploy script
         run: |
           sshpass -p "${{ secrets.PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          "bash ~/${TARGET_DIR}/api-start.sh"
+          "bash ~/${{ env.TARGET_DIR }}/api-start.sh"
