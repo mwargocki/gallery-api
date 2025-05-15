@@ -40,8 +40,8 @@ class PhotoController(
       @RequestParam(required = false) color: List<String>?,
       @RequestParam(required = false) type: List<String>?,
       @RequestParam(required = false) material: List<String>?,
-      @RequestParam(required = false) minHeight: Int?,
-      @RequestParam(required = false) maxHeight: Int?,
+      @RequestParam(required = false) minHeight: Double?,
+      @RequestParam(required = false) maxHeight: Double?,
       @RequestParam(defaultValue = "0") page: Int,
       @RequestParam(defaultValue = "20") size: Int
    ): Page<Photo> {

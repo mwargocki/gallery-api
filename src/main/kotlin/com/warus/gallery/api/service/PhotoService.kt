@@ -66,8 +66,8 @@ class PhotoService(
       colors: List<String>?,
       types: List<String>?,
       materials: List<String>?,
-      minHeight: Int?,
-      maxHeight: Int?,
+      minHeight: Double?,
+      maxHeight: Double?,
       page: Int,
       size: Int
    ): Page<Photo> {

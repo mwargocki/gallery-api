@@ -13,7 +13,7 @@ data class Photo(
    val thumbnail: String? = null,
 
    @Column(nullable = false)
-   val height: Int,
+   val height: Double,
 
    @Column(nullable = false)
    val material: String,

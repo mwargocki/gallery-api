@@ -37,11 +37,11 @@ object PhotoSpecs {
       cb.or(*predicates.toTypedArray())
    }
 
-   fun hasMinHeight(minHeight: Int) = Specification<Photo> { root, _, cb ->
+   fun hasMinHeight(minHeight: Double) = Specification<Photo> { root, _, cb ->
       cb.greaterThanOrEqualTo(root.get("height"), minHeight)
    }
 
-   fun hasMaxHeight(maxHeight: Int) = Specification<Photo> { root, _, cb ->
+   fun hasMaxHeight(maxHeight: Double) = Specification<Photo> { root, _, cb ->
       cb.lessThanOrEqualTo(root.get("height"), maxHeight)
    }
 }
