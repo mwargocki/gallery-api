@@ -43,9 +43,10 @@ class PhotoController(
       @RequestParam(required = false) minHeight: Double?,
       @RequestParam(required = false) maxHeight: Double?,
       @RequestParam(defaultValue = "0") page: Int,
-      @RequestParam(defaultValue = "20") size: Int
+      @RequestParam(defaultValue = "20") size: Int,
+      @RequestParam(required = false) sort: String?
    ): Page<Photo> {
-      return photoService.getPhotosWithFilters(color, type, material, minHeight, maxHeight, page, size)
+      return photoService.getPhotosWithFilters(color, type, material, minHeight, maxHeight, page, size, sort)
    }
 
    @GetMapping("/{id}")

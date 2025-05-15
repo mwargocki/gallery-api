@@ -69,7 +69,8 @@ class PhotoService(
       minHeight: Double?,
       maxHeight: Double?,
       page: Int,
-      size: Int
+      size: Int,
+      sort: String?
    ): Page<Photo> {
       val spec = Specification.where<Photo>(null)
          .and(colors?.let { PhotoSpecs.hasAnyColor(it) })
@@ -78,7 +79,15 @@ class PhotoService(
          .and(minHeight?.let { PhotoSpecs.hasMinHeight(it) })
          .and(maxHeight?.let { PhotoSpecs.hasMaxHeight(it) })
 
-      return photoRepository.findAll(spec, PageRequest.of(page, size, Sort.by("id").descending()))
+      val sortObj = when (sort) {
+         "date_desc" -> Sort.by(Sort.Direction.DESC, "createdAt")
+         "date_asc" -> Sort.by(Sort.Direction.ASC, "createdAt")
+         "height_desc" -> Sort.by(Sort.Direction.DESC, "height")
+         "height_asc" -> Sort.by(Sort.Direction.ASC, "height")
+         else -> Sort.by(Sort.Direction.DESC, "createdAt")
+      }
+
+      return photoRepository.findAll(spec, PageRequest.of(page, size, sortObj))
    }
 
    fun getPhotoById(id: Long): Photo =

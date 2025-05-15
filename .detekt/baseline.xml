@@ -2,8 +2,8 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>LongParameterList:PhotoController.kt$PhotoController$( @RequestParam(required = false) color: List&lt;String&gt;?, @RequestParam(required = false) type: List&lt;String&gt;?, @RequestParam(required = false) material: List&lt;String&gt;?, @RequestParam(required = false) minHeight: Double?, @RequestParam(required = false) maxHeight: Double?, @RequestParam(defaultValue = "0") page: Int, @RequestParam(defaultValue = "20") size: Int )</ID>
-    <ID>LongParameterList:PhotoService.kt$PhotoService$( colors: List&lt;String&gt;?, types: List&lt;String&gt;?, materials: List&lt;String&gt;?, minHeight: Double?, maxHeight: Double?, page: Int, size: Int )</ID>
+    <ID>LongParameterList:PhotoController.kt$PhotoController$( @RequestParam(required = false) color: List&lt;String&gt;?, @RequestParam(required = false) type: List&lt;String&gt;?, @RequestParam(required = false) material: List&lt;String&gt;?, @RequestParam(required = false) minHeight: Double?, @RequestParam(required = false) maxHeight: Double?, @RequestParam(defaultValue = "0") page: Int, @RequestParam(defaultValue = "20") size: Int, @RequestParam(required = false) sort: String? )</ID>
+    <ID>LongParameterList:PhotoService.kt$PhotoService$( colors: List&lt;String&gt;?, types: List&lt;String&gt;?, materials: List&lt;String&gt;?, minHeight: Double?, maxHeight: Double?, page: Int, size: Int, sort: String? )</ID>
     <ID>MagicNumber:JwtAuthenticationFilter.kt$JwtAuthenticationFilter$7</ID>
     <ID>MagicNumber:PhotoService.kt$PhotoService$500</ID>
     <ID>MatchingDeclarationName:OpenApiConfig.kt$OpenApiSecurityConfig</ID>
