@@ -1,15 +1,15 @@
 package com.warus.gallery.api.service
 
-import com.warus.gallery.api.db.repository.PhotoRepository
+import com.warus.gallery.api.db.repository.AngelRepository
 import org.springframework.stereotype.Service
 
 @Service
 class FilterService(
-   private val photoRepository: PhotoRepository
+   private val angelRepository: AngelRepository
 ) {
-   fun getAllColors(): List<String> = photoRepository.findAllDistinctColors()
+   fun getAllColors(): List<String> = angelRepository.findAllDistinctColors()
 
-   fun getAllTypes(): List<String> = photoRepository.findAllDistinctTypes()
+   fun getAllTypes(): List<String> = angelRepository.findAllDistinctTypes()
 
-   fun getAllMaterials(): List<String> = photoRepository.findAllDistinctMaterials()
+   fun getAllMaterials(): List<String> = angelRepository.findAllDistinctMaterials()
 }

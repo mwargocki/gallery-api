@@ -4,10 +4,10 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "photos")
-data class Photo(
-   @Column(name = "file_name", nullable = false)
-   val filename: String,
+@Table(name = "angels")
+data class Angel(
+   @Column(name = "photo", nullable = false)
+   val photo: String,
 
    @Column(name = "thumbnail")
    val thumbnail: String? = null,

@@ -7,4 +7,3 @@ data class SecurityProperties(
    val secret: String,
    val expiration: Long
 )
-

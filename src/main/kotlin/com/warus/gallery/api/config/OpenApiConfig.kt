@@ -20,9 +20,9 @@ class OpenApiSecurityConfig {
       return OpenAPI()
          .info(
             Info()
-               .title("Photo Gallery API")
+               .title("Angels Gallery API")
                .version("1.0")
-               .description("Photo Gallery Api")
+               .description("Angels Gallery Api")
          )
          .addSecurityItem(SecurityRequirement().addList(securitySchemeName))
          .components(

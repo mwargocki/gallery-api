@@ -1,6 +1,6 @@
 package com.warus.gallery.api.model
 
-data class PhotoUploadRequest(
+data class AngelUpdateRequest(
    val height: Double,
    val material: String,
    val color: String,

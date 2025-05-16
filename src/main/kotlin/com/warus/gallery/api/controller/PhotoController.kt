@@ -1,72 +1,44 @@
 package com.warus.gallery.api.controller
 
-import com.warus.gallery.api.db.model.Photo
-import com.warus.gallery.api.model.PhotoUpdateRequest
-import com.warus.gallery.api.model.PhotoUploadRequest
-import com.warus.gallery.api.service.PhotoService
-import org.springframework.data.domain.Page
+import com.warus.gallery.api.config.UploadProperties
+import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import java.io.File
+import java.io.IOException
+import java.nio.file.Files
 
 @RestController
 @RequestMapping("/api/photos")
 class PhotoController(
-   private val photoService: PhotoService
+    private val uploadProperties: UploadProperties,
 ) {
 
-   @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-//   @PreAuthorize("hasRole('ADMIN')")
-   fun uploadPhoto(
-      @RequestPart file: MultipartFile,
-      @RequestPart photo: PhotoUploadRequest
-   ): ResponseEntity<Photo> {
-      if (photo.height <= 0) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-      }
+    @GetMapping(value = ["/{photoId}"])
+    fun downloadPhoto(
+        @PathVariable photoId: String
+    ): ResponseEntity<ByteArray> {
+        val photoFile = File("${uploadProperties.path}/${photoId}")
 
-      val saved = photoService.save(file, photo.copy(
-         material = photo.material.lowercase(),
-         color = photo.color.lowercase(),
-         type = photo.type.lowercase()
-      ))
-      return ResponseEntity.status(HttpStatus.CREATED).body(saved)
-   }
+        if (!photoFile.exists() || !photoFile.isFile) {
+            return ResponseEntity.notFound().build()
+        }
 
-   @GetMapping
-   fun getPhotos(
-      @RequestParam(required = false) color: List<String>?,
-      @RequestParam(required = false) type: List<String>?,
-      @RequestParam(required = false) material: List<String>?,
-      @RequestParam(required = false) minHeight: Double?,
-      @RequestParam(required = false) maxHeight: Double?,
-      @RequestParam(defaultValue = "0") page: Int,
-      @RequestParam(defaultValue = "20") size: Int,
-      @RequestParam(required = false) sort: String?
-   ): Page<Photo> {
-      return photoService.getPhotosWithFilters(color, type, material, minHeight, maxHeight, page, size, sort)
-   }
+        return try {
+            val content = photoFile.readBytes()
+            val contentType = Files.probeContentType(photoFile.toPath()) ?: MediaType.APPLICATION_OCTET_STREAM_VALUE
 
-   @GetMapping("/{id}")
-   fun getPhoto(@PathVariable id: Long): Photo {
-      return photoService.getPhotoById(id)
-   }
-
-   @PutMapping("/{id}")
-   fun updatePhoto(@PathVariable id: Long, @RequestBody request: PhotoUpdateRequest): Photo {
-      return photoService.updatePhoto(id, request.copy(
-         material = request.material.lowercase(),
-         color = request.color.lowercase(),
-         type = request.type.lowercase()
-      ))
-   }
-
-   @DeleteMapping("/{id}")
-   fun deletePhoto(@PathVariable id: Long): ResponseEntity<Void> {
-      photoService.deletePhoto(id)
-      return ResponseEntity.noContent().build()
-   }
+            ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, contentType)
+                .body(content)
+        } catch (e: IOException) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+        }
+    }
 
 }
