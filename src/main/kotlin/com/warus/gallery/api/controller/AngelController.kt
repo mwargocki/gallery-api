@@ -1,6 +1,7 @@
 package com.warus.gallery.api.controller
 
 import com.warus.gallery.api.db.model.Angel
+import com.warus.gallery.api.model.AngelDto
 import com.warus.gallery.api.model.AngelUpdateRequest
 import com.warus.gallery.api.model.AngelUploadRequest
 import com.warus.gallery.api.service.AngelService
@@ -20,18 +21,20 @@ class AngelController(
    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
 //   @PreAuthorize("hasRole('ADMIN')")
    fun addAngel(
-      @RequestPart file: MultipartFile,
-      @RequestPart angel: AngelUploadRequest
+      @RequestPart angel: AngelUploadRequest,
+      @RequestPart photos: List<MultipartFile>
    ): ResponseEntity<Angel> {
-      if (angel.height <= 0) {
+      if (angel.height <= 0 || photos.isEmpty()) {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
       }
 
-      val saved = angelService.save(file, angel.copy(
-         material = angel.material.lowercase(),
-         color = angel.color.lowercase(),
-         type = angel.type.lowercase()
-      ))
+      val saved = angelService.save(
+         angel.copy(
+            material = angel.material.lowercase(),
+            color = angel.color.lowercase(),
+            type = angel.type.lowercase()
+         ), photos
+      )
       return ResponseEntity.status(HttpStatus.CREATED).body(saved)
    }
 
@@ -45,12 +48,12 @@ class AngelController(
       @RequestParam(defaultValue = "0") page: Int,
       @RequestParam(defaultValue = "20") size: Int,
       @RequestParam(required = false) sort: String?
-   ): Page<Angel> {
+   ): Page<AngelDto> {
       return angelService.getAngelsWithFilters(color, type, material, minHeight, maxHeight, page, size, sort)
    }
 
    @GetMapping("/{id}")
-   fun getAngel(@PathVariable id: Long): Angel {
+   fun getAngel(@PathVariable id: Long): AngelDto {
       return angelService.getAngelById(id)
    }
 

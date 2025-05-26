@@ -3,63 +3,46 @@ package com.warus.gallery.api.service
 import com.warus.gallery.api.config.UploadProperties
 import com.warus.gallery.api.db.model.Angel
 import com.warus.gallery.api.db.repository.AngelRepository
+import com.warus.gallery.api.model.AngelDto
 import com.warus.gallery.api.model.AngelUpdateRequest
 import com.warus.gallery.api.model.AngelUploadRequest
-import net.coobird.thumbnailator.Thumbnails
+import jakarta.transaction.Transactional
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 import java.util.*
 
 @Service
 class AngelService(
    private val angelRepository: AngelRepository,
-   private val uploadProperties: UploadProperties
+   private val photoStorageService: PhotoStorageService
 ) {
 
-   fun save(file: MultipartFile, metadata: AngelUploadRequest): Angel {
-      val extension = file.originalFilename?.substringAfterLast('.', "")!!
-      val uuid = UUID.randomUUID().toString()
-
-      val photoFilename = "$uuid.$extension"
-      val thumbnailFilename = "${uuid}_thumb.$extension"
-
-      val uploadDir = Paths.get(uploadProperties.path)
-      val fullPath = uploadDir.resolve(photoFilename)
-      val thumbPath = uploadDir.resolve(thumbnailFilename)
-
-      if (!Files.exists(uploadDir)) {
-         Files.createDirectories(uploadDir)
-      }
-
-      // Zapis oryginału
-      file.inputStream.use { input ->
-         Files.copy(input, fullPath, StandardCopyOption.REPLACE_EXISTING)
-      }
-
-      // Tworzenie miniatury (max 1920x1080)
-      Thumbnails.of(fullPath.toFile())
-         .size(500, 500)
-         .keepAspectRatio(true)
-         .toFile(thumbPath.toFile())
-
+   @Transactional
+   fun save(request: AngelUploadRequest, photos: List<MultipartFile>): Angel {
       val angel = Angel(
-         photo = photoFilename,
-         thumbnail = thumbnailFilename,
-         height = metadata.height,
-         material = metadata.material,
-         color = metadata.color,
-         type = metadata.type
+         height = request.height,
+         material = request.material,
+         color = request.color,
+         type = request.type
       )
+      val saved = angelRepository.save(angel)
+      val id = saved.id ?:  throw IllegalStateException("Angel ID is null")
 
-      return angelRepository.save(angel)
+      try {
+         photoStorageService.saveAngelPhotos(id, photos)
+         return saved
+      } catch (e: Exception) {
+         photoStorageService.deleteAllPhotosForAngel(id)
+         throw e
+      }
    }
 
    fun getAngelsWithFilters(
@@ -71,7 +54,7 @@ class AngelService(
       page: Int,
       size: Int,
       sort: String?
-   ): Page<Angel> {
+   ): Page<AngelDto> {
       val spec = Specification.where<Angel>(null)
          .and(colors?.let { AngelSpecs.hasAnyColor(it) })
          .and(types?.let { AngelSpecs.hasAnyType(it) })
@@ -87,11 +70,12 @@ class AngelService(
          else -> Sort.by(Sort.Direction.DESC, "createdAt")
       }
 
-      return angelRepository.findAll(spec, PageRequest.of(page, size, sortObj))
+      val angels = angelRepository.findAll(spec, PageRequest.of(page, size, sortObj))
+      return angels.map { toDto(it) }
    }
 
-   fun getAngelById(id: Long): Angel =
-      angelRepository.findById(id)
+   fun getAngelById(id: Long): AngelDto =
+      angelRepository.findById(id).map { toDto(it) }
          .orElseThrow { NoSuchElementException("Angel not found with id $id") }
 
    fun updateAngel(id: Long, request: AngelUpdateRequest): Angel {
@@ -108,22 +92,28 @@ class AngelService(
       return angelRepository.save(updated)
    }
 
+   @Transactional
    fun deleteAngel(id: Long) {
-      val angel = angelRepository.findById(id)
-         .orElseThrow { NoSuchElementException("Angel not found with id $id") }
-
-      val uploadPath = Paths.get(uploadProperties.path)
-
-      val originalPath: Path = uploadPath.resolve(angel.photo)
-      Files.deleteIfExists(originalPath)
-
-      val thumbName = angel.thumbnail
-      if (!thumbName.isNullOrBlank()) {
-         val thumbPath = uploadPath.resolve(thumbName)
-         Files.deleteIfExists(thumbPath)
+      if (!angelRepository.existsById(id)) {
+         throw NoSuchElementException("Angel with id $id not found")
       }
 
-      angelRepository.delete(angel)
+      angelRepository.deleteById(id)
+      photoStorageService.deleteAllPhotosForAngel(id)
+   }
+
+   fun toDto(angel: Angel): AngelDto {
+      val id = angel.id ?: throw IllegalStateException("Angel ID is null")
+      val firstPhoto = photoStorageService.getSortedOriginalFilenames(id).firstOrNull()
+      return AngelDto(
+         id = id,
+         color = angel.color,
+         material = angel.material,
+         type = angel.type,
+         height = angel.height,
+         thumbnail = firstPhoto,
+         createdAt = angel.createdAt
+      )
    }
 
 }

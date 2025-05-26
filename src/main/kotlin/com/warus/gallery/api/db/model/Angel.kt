@@ -6,11 +6,6 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "angels")
 data class Angel(
-   @Column(name = "photo", nullable = false)
-   val photo: String,
-
-   @Column(name = "thumbnail")
-   val thumbnail: String? = null,
 
    @Column(nullable = false)
    val height: Double,

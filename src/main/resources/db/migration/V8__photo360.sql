@@ -1,0 +1,3 @@
+ALTER TABLE angels
+DROP COLUMN IF EXISTS photo,
+DROP COLUMN IF EXISTS thumbnail;

@@ -30,7 +30,8 @@ class SecurityConfig(
                .requestMatchers("/api/auth/**").permitAll()
                .requestMatchers("/actuator/health").permitAll() //http://localhost:8080/actuator
                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() //http://localhost:8080/swagger-ui/index.html#
-               .requestMatchers(HttpMethod.GET, "/api/angels/**", "/api/filters/**", "/api/photos/**").permitAll()
+               .requestMatchers(HttpMethod.GET, "/api/angels/**", "/api/filters/**").permitAll()
+               .requestMatchers(HttpMethod.POST).permitAll()
                .anyRequest().authenticated()
          }
          .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }

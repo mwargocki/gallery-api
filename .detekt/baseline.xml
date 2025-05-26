@@ -2,26 +2,34 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
+    <ID>ImplicitDefaultLocale:PhotoStorageService.kt$PhotoStorageService$String.format("%02d.%s", index + 1, ext)</ID>
+    <ID>ImplicitDefaultLocale:PhotoStorageService.kt$PhotoStorageService$String.format("%02d.%s", newIndex, ext)</ID>
     <ID>LongParameterList:AngelController.kt$AngelController$( @RequestParam(required = false) color: List&lt;String&gt;?, @RequestParam(required = false) type: List&lt;String&gt;?, @RequestParam(required = false) material: List&lt;String&gt;?, @RequestParam(required = false) minHeight: Double?, @RequestParam(required = false) maxHeight: Double?, @RequestParam(defaultValue = "0") page: Int, @RequestParam(defaultValue = "20") size: Int, @RequestParam(required = false) sort: String? )</ID>
     <ID>LongParameterList:AngelService.kt$AngelService$( colors: List&lt;String&gt;?, types: List&lt;String&gt;?, materials: List&lt;String&gt;?, minHeight: Double?, maxHeight: Double?, page: Int, size: Int, sort: String? )</ID>
-    <ID>MagicNumber:AngelService.kt$AngelService$500</ID>
     <ID>MagicNumber:JwtAuthenticationFilter.kt$JwtAuthenticationFilter$7</ID>
+    <ID>MagicNumber:PhotoStorageService.kt$PhotoStorageService$800</ID>
     <ID>MatchingDeclarationName:OpenApiConfig.kt$OpenApiSecurityConfig</ID>
     <ID>NewLineAtEndOfFile:AngelSpecs.kt$com.warus.gallery.api.service.AngelSpecs.kt</ID>
     <ID>NewLineAtEndOfFile:JwtAuthenticationFilter.kt$com.warus.gallery.api.filter.JwtAuthenticationFilter.kt</ID>
     <ID>NewLineAtEndOfFile:OpenApiConfig.kt$com.warus.gallery.api.config.OpenApiConfig.kt</ID>
     <ID>NewLineAtEndOfFile:PhotoController.kt$com.warus.gallery.api.controller.PhotoController.kt</ID>
+    <ID>ReturnCount:PhotoController.kt$PhotoController$@GetMapping(value = ["/{filename}/{type}"]) fun downloadPhoto( @PathVariable angelId: Long, @PathVariable type: String, // "original" lub "scaled" @PathVariable filename: String ): ResponseEntity&lt;ByteArray&gt;</ID>
+    <ID>ReturnCount:PhotoStorageService.kt$PhotoStorageService$fun loadPhoto(angelId: Long, type: String, filename: String): Pair&lt;ByteArray, String&gt;?</ID>
     <ID>SpreadOperator:AngelSpecs.kt$AngelSpecs$(*predicates.toTypedArray())</ID>
     <ID>SpreadOperator:Application.kt$(*args)</ID>
     <ID>SwallowedException:AuthController.kt$AuthController$ex: AuthenticationException</ID>
     <ID>SwallowedException:JwtUtils.kt$JwtUtils$ex: JwtException</ID>
     <ID>SwallowedException:PhotoController.kt$PhotoController$e: IOException</ID>
+    <ID>TooGenericExceptionCaught:AngelService.kt$AngelService$e: Exception</ID>
     <ID>TooGenericExceptionThrown:AuthController.kt$AuthController$throw RuntimeException("Invalid credentials")</ID>
     <ID>UnusedPrivateClass:UserController.kt$UserController</ID>
+    <ID>UseCheckOrError:AngelService.kt$AngelService$throw IllegalStateException("Angel ID is null")</ID>
     <ID>UseRequire:UserService.kt$UserService$throw IllegalArgumentException("Username already exists")</ID>
     <ID>UtilityClassWithPublicConstructor:IntegrationTest.kt$IntegrationTest</ID>
     <ID>WildcardImport:Angel.kt$import jakarta.persistence.*</ID>
     <ID>WildcardImport:AngelController.kt$import org.springframework.web.bind.annotation.*</ID>
+    <ID>WildcardImport:PhotoStorageService.kt$import java.nio.file.*</ID>
+    <ID>WildcardImport:PhotoStorageService.kt$import kotlin.io.path.*</ID>
     <ID>WildcardImport:User.kt$import jakarta.persistence.*</ID>
   </CurrentIssues>
 </SmellBaseline>
