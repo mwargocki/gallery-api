@@ -32,6 +32,7 @@ class SecurityConfig(
                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() //http://localhost:8080/swagger-ui/index.html#
                .requestMatchers(HttpMethod.GET, "/api/angels/**", "/api/filters/**").permitAll()
                .requestMatchers(HttpMethod.POST).permitAll()
+               .requestMatchers(HttpMethod.GET).permitAll()
                .anyRequest().authenticated()
          }
          .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }

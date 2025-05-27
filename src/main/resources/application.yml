@@ -6,7 +6,7 @@ spring:
     name: gallery-api
 
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
   jpa:
     hibernate:
@@ -44,7 +44,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: dev
 
   datasource:
     url: jdbc:postgresql://localhost:6666/gallery_db
@@ -52,19 +52,8 @@ spring:
     password: pass
     driver-class-name: org.postgresql.Driver
 
-logging:
-  level:
-    root: INFO
-    org.springframework: WARN
-    org.hibernate.SQL: DEBUG
-    com.example.gallery: DEBUG
-  #  file:
-  #    name: logs/gallery.log
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-
 upload:
-  path: /Users/marek.wargocki@schibsted.com/Downloads/uploaded
+  path: /Users/marek.wargocki@m10s.io/Downloads/uploaded
 
 jwt:
   secret: supersecretkey12345678901234567890123456789012
@@ -82,16 +71,8 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
-logging:
-  level:
-    root: INFO
-    org.springframework: WARN
-    org.hibernate.SQL: DEBUG
-    com.example.gallery: DEBUG
-  #  file:
-  #    name: logs/gallery.log
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  jpa:
+    show-sql: false
 
 upload:
   path: ${FILE_STORAGE_PATH}

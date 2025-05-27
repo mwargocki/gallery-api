@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <!-- ========== LOCAL / DEV / TEST ========== -->
+    <springProfile name="local,dev,test">
+        <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="org.springframework" level="WARN"/>
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="com.warus.gallery" level="DEBUG"/>
+
+        <root level="INFO">
+            <appender-ref ref="Console" />
+        </root>
+    </springProfile>
+
+    <!-- ========== PROD ========== -->
+    <springProfile name="prod">
+        <property name="LOG_PATH" value="logs" />
+        <property name="LOG_FILE" value="${LOG_PATH}/gallery.log" />
+
+        <!-- Rolling file appender -->
+        <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${LOG_FILE}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/gallery-%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+                <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            </rollingPolicy>
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <!-- Async wrapper -->
+        <appender name="AsyncFile" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="RollingFile"/>
+            <queueSize>512</queueSize> <!-- domyślnie 256 -->
+            <discardingThreshold>0</discardingThreshold> <!-- 0 = nie odrzucaj niczego -->
+        </appender>
+
+        <logger name="org.springframework" level="WARN"/>
+        <logger name="org.hibernate.SQL" level="INFO"/>
+        <logger name="com.warus.gallery" level="DEBUG"/>
+
+        <root level="INFO">
+            <appender-ref ref="AsyncFile" />
+        </root>
+    </springProfile>
+
+</configuration>
